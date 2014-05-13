@@ -17,9 +17,9 @@ define(function(require, exports, module) {
         View.apply(this, arguments);
         this.views = [];
         this.mods = [];
-        for(var i = 0; i < 300; i++){
+        for (var i = 0; i < 300; i++){
             this.views.push((new Surface({
-                size: [50, 50 + Math.floor(Math.random() * 300)],
+                size: [100, 50 + Math.floor(Math.random() * 300)],
                 properties: {
                     background: 'rgb(' + Math.floor(Math.random() * 100) + ', ' + Math.floor(Math.random() * 140) + ', ' + Math.floor(Math.random() * 250) + ')'
                 }
@@ -31,7 +31,7 @@ define(function(require, exports, module) {
         this.tallest = 0;
         _renderViews.call(this);
 
-        Engine.on('resize', _renderViews.bind(this))
+        Engine.on('resize', _renderViews.bind(this));
 
     }
 
@@ -39,52 +39,50 @@ define(function(require, exports, module) {
     Isotope.prototype.constructor = Isotope;
 
     Isotope.DEFAULT_OPTIONS = {
-        width: 55
+        width: 105
     };
 
-    Isotope.prototype.getSize = function(){
+    Isotope.prototype.getSize = function() {
         var size = View.prototype.getSize.call(this);
-        if(!!size) {
+        if (size) {
             size[1] = this.tallest + 5;
         } else {
             return [window.innerWidth, Math.max(this.tallest + 5, window.innerHeight)];
         }
         return size;
     };
-    
 
-    function _renderViews(){
+    function _renderViews() {
         var columns = Math.floor(window.innerWidth / this.options.width);
         var extraSpace = window.innerWidth % this.options.width;
         var heights = [];
-        for(var i = 0; i < columns; i++){
+        for (var i = 0; i < columns; i++){
             heights.push(5);
         }
-        this.views.forEach(function (surface, index) {
+        this.views.forEach(function(surface, index) {
             var column = index % columns;
             var row = Math.floor(index/columns);
             var height = surface.getSize()[1];
-            if(row !== 0){
+            if (row !== 0){
                 column = smallestInArray(heights);
             }
-            // var modifier = new Modifier({                
+            // var modifier = new Modifier({
             //     transform: Transform.translate(column*155 + extraSpace/2, heights[column], 0)
             // });
             this.mods[index].halt();
-            this.mods[index].setTransform(Transform.translate(column*this.options.width + extraSpace/2, heights[column], 0), 
-                    {duration: 500, curve:'easeOut'});
+            this.mods[index].setTransform(Transform.translate(column*this.options.width + extraSpace/2, heights[column], 0), {duration: 500, curve:'easeOut'});
             heights[column] += height + 5;
-            if(heights[column] > this.tallest){
+            if (heights[column] > this.tallest){
                 this.tallest = heights[column];
             }
 
         }.bind(this));
     }
 
-    function smallestInArray(array){
+    function smallestInArray(array) {
         var smallest = 0;
-        for(var i = 1; i<array.length; i++){
-            if(array[i] < array[smallest]){
+        for (var i = 1; i<array.length; i++){
+            if (array[i] < array[smallest]){
                 smallest = i;
             }
         }
