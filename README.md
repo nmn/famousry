@@ -5,6 +5,7 @@ At the moment famousry only handles a single column width and all the elements t
 
 Built on the strength of famous, the it's got good performance and can handle a large number of elements and animations between various positions, even if you resize very frequently.
 
+![gitf](http://naman.s3.amazonaws.com/famousry/famousry.gif)
 
 ##Dependencies
 It is actually quite simple really
